@@ -1,0 +1,21 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: visionqa-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: visionqa
+      MONGO_INITDB_ROOT_PASSWORD: visionqa
+      MONGO_INITDB_DATABASE: visionqa
+    ports:
+      - "27017:27017"
+    volumes:
+      - visionqa_mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  visionqa_mongo_data:
